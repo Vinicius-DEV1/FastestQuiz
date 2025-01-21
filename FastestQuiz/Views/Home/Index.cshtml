@@ -4,7 +4,7 @@
 
 <div class="text-center d-flex flex-column align-items-center">
     <h1 class="display-4">Welcome <span class="text-success">USER</span></h1>
-    <button class="btn btn-primary mb-3">Criar Quiz</button>
-    <button class="btn btn-primary mb-3">Pesquisar Quiz</button>
-    <button class="btn btn-warning mb-3">Criar conta</button>
+    <a class="btn btn-primary mb-3" asp-area="" asp-controller="Quiz" asp-action="Create">Create Quiz</a>
+    <a class="btn btn-primary mb-3" asp-area="" asp-controller="Quiz" asp-action="Search">Search Quiz</a>
+    <a class="btn btn-warning mb-3" asp-area="" asp-controller="Account" asp-action="Create">Create Account</a>
 </div>

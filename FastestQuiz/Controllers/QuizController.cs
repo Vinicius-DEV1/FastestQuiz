@@ -3,32 +3,32 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace FastestQuiz.Controllers
 {
-    public class AccountController : Controller
+    public class QuizController : Controller
     {
-        // GET: AccountController
+        // GET: QuizController
         public ActionResult Index()
         {
             return View();
         }
 
-        public ActionResult UserProfile()
-        {
-            return View();
-        }
-
-        // GET: AccountController/Details/5
+        // GET: QuizController/Details/5
         public ActionResult Details(int id)
         {
             return View();
         }
 
-        // GET: AccountController/Create
+        // GET: QuizController/Create
         public ActionResult Create()
         {
-            return View("Register");
+            return View();
         }
 
-        // POST: AccountController/Create
+        public ActionResult Search()
+        {
+            return View("Details");
+        }
+
+        // POST: QuizController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create(IFormCollection collection)
@@ -43,13 +43,13 @@ namespace FastestQuiz.Controllers
             }
         }
 
-        // GET: AccountController/Edit/5
+        // GET: QuizController/Edit/5
         public ActionResult Edit(int id)
         {
             return View();
         }
 
-        // POST: AccountController/Edit/5
+        // POST: QuizController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit(int id, IFormCollection collection)
@@ -64,13 +64,13 @@ namespace FastestQuiz.Controllers
             }
         }
 
-        // GET: AccountController/Delete/5
+        // GET: QuizController/Delete/5
         public ActionResult Delete(int id)
         {
             return View();
         }
 
-        // POST: AccountController/Delete/5
+        // POST: QuizController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Delete(int id, IFormCollection collection)

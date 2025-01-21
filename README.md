@@ -1,9 +1,9 @@
-# FATESTQUIZ
+# FASTESTQUIZ
 
-**FATESTQUIZ** é uma plataforma online que permite a criação de quizzes de forma rápida e prática. Ideal para professores, empresas ou qualquer pessoa que queira criar e compartilhar quizzes personalizados de forma simples e sem complicações.
+**FASTESTQUIZ** é uma plataforma online que permite a criação de quizzes de forma rápida e prática. Ideal para professores, empresas ou qualquer pessoa que queira criar e compartilhar quizzes personalizados de forma simples e sem complicações.
 
 ## Acesse
-[![Acesse o FATESTQUIZ](https://img.shields.io/badge/Acesse%20o%20FATESTQUIZ-blue?style=for-the-badge)](https://fastest-quiz-c0csfsbubwd7htcw.brazilsouth-01.azurewebsites.net/)
+[![Acesse o FASTESTQUIZ](https://img.shields.io/badge/Acesse%20o%20FASTESTQUIZ-blue?style=for-the-badge)](https://fastest-quiz-c0csfsbubwd7htcw.brazilsouth-01.azurewebsites.net/)
 
 ## Tecnologias
 

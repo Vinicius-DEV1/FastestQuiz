@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using FastestQuiz.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Xml.Linq;
 
 namespace FastestQuiz.Controllers
 {
@@ -11,8 +13,15 @@ namespace FastestQuiz.Controllers
             return View();
         }
 
+        private readonly FirebaseService _firebaseService;
+
+        public QuizController(FirebaseService firebaseService)
+        {
+            _firebaseService = firebaseService;
+        }
+
         // GET: QuizController/Details/5
-        public ActionResult Details(int id)
+        public IActionResult Details()
         {
             return View();
         }
@@ -23,19 +32,21 @@ namespace FastestQuiz.Controllers
             return View();
         }
 
-        public ActionResult Search()
+        public async Task<ActionResult> Search()
         {
-            return View("Details");
+            var Quizzes = await _firebaseService.ListQuizzesAsync();
+            return View(Quizzes);
         }
 
         // POST: QuizController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public async Task<IActionResult> Create(IFormCollection formCollection)
         {
             try
             {
-                return RedirectToAction(nameof(Index));
+                await _firebaseService.AddQuizzesAsync(formCollection);
+                return RedirectToAction(nameof(Search));
             }
             catch
             {

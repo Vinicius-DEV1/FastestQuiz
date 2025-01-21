@@ -1,7 +1,13 @@
+using FastestQuiz.Models;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+// FIREBASE : Adiciona os serviços ao container de DI
+builder.Services.AddSingleton<IConfiguration>(builder.Configuration);
+builder.Services.AddTransient<FirebaseService>();
 
 var app = builder.Build();
 

@@ -1,6 +1,7 @@
 ﻿using Google.Apis.Auth.OAuth2;
 using Google.Cloud.Firestore;
 using Google.Cloud.Firestore.V1;
+using Grpc.Auth;
 
 namespace FastestQuiz.Models
 {
@@ -16,21 +17,41 @@ namespace FastestQuiz.Models
                 throw new Exception("ProjectId não está configurado no appsettings.json.");
             }
 
-            // Caminho para o arquivo JSON de credenciais
-            string credentialsPath = "firestore-credential.json"; // Caminho do seu arquivo JSON
+            // Detectar o ambiente com base em uma configuração ou variável
+            var environment = configuration["ASPNETCORE_ENVIRONMENT"] ?? "Production";
 
-            // Carregar as credenciais do arquivo
-            var credentials = GoogleCredential.FromFile(credentialsPath);
+            GoogleCredential credentials;
+            if (environment == "Development")
+            {
+                // Usar o arquivo local em ambiente de desenvolvimento
+                string credentialsPath = "firestore-credential.json"; // Caminho do arquivo local
+                if (!File.Exists(credentialsPath))
+                {
+                    throw new Exception("O arquivo firestore-credential.json não foi encontrado no ambiente local.");
+                }
+                credentials = GoogleCredential.FromFile(credentialsPath);
+            }
+            else
+            {
+                // Usar variável de ambiente em produção
+                var credentialJson = Environment.GetEnvironmentVariable("FIRESTORE_CREDENTIAL");
+                if (string.IsNullOrEmpty(credentialJson))
+                {
+                    throw new Exception("Credenciais do Firestore não configuradas na variável de ambiente.");
+                }
+                credentials = GoogleCredential.FromJson(credentialJson);
+            }
 
-            // Criar o FirestoreClient com as credenciais usando FirestoreClientBuilder
+            // Criar o FirestoreClient com as credenciais
             var firestoreClient = new FirestoreClientBuilder
             {
-                CredentialsPath = credentialsPath
+                ChannelCredentials = credentials.ToChannelCredentials()
             }.Build();
 
-            // Agora o FirestoreDb é inicializado com o FirestoreClient
+            // Inicializar o FirestoreDb
             firestoreDb = FirestoreDb.Create(projectId, firestoreClient);
         }
+
 
 
         // Responsável por receber a coleção e transforma em um objeto

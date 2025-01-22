@@ -1,11 +1,15 @@
-﻿@* Show all info about the quiz*@
-<h1> details</h1>
+﻿@* Show all info about the quiz *@
+
+@model FastestQuiz.Models.Quiz
+
+<h1> Details</h1>
 <div>
-    <p> NAME : </p>
-    <p> AUTOR : </p>
-    <p> Q1 : </p>
-    <p> Q2 : </p>
-    <p> Q3 :</p>
-    <p> Q4 : S</p>
+    <p> Question : <span class="text-success"> @Model.Name  </span> </p>
+    <p> Author : <span class="text-success"> @Model.Author  </span></p>
+    <p> Description : <span class="text-success"> @Model.Description  </span></p>
+    <p> Q1 : <span class="text-success"> @Model.Question1  </span></p>
+    <p> Q2 : <span class="text-success"> @Model.Question2  </span></p>
+    <p> Q3 :  <span class="text-success"> @Model.Question3  </span></p>
+    <p> Q4 : <span class="text-success"> @Model.Question4  </span></p>-->
 
 </div>

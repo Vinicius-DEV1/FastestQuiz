@@ -20,10 +20,20 @@ namespace FastestQuiz.Controllers
             _firebaseService = firebaseService;
         }
 
+
+
         // GET: QuizController/Details/5
-        public IActionResult Details()
+        public async Task<IActionResult> Details(string id)
         {
-            return View();
+            // Simule a busca no bd
+            var quiz = await _firebaseService.GetQuizByIdAsync(id);
+
+            if (quiz == null)
+            {
+                return NotFound();
+            }
+
+            return View(quiz);  // Passando o quiz para a view
         }
 
         // GET: QuizController/Create

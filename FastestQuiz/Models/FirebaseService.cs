@@ -11,20 +11,19 @@ namespace FastestQuiz.Models
 
         public FirebaseService(IConfiguration configuration)
         {
+            var environment = configuration["ASPNETCORE_ENVIRONMENT"] ?? "Production";
             var projectId = configuration["Firebase:ProjectId"];
+
             if (string.IsNullOrEmpty(projectId))
             {
-                throw new Exception("ProjectId não está configurado no appsettings.json.");
+                throw new Exception("ProjectId não está configurado no appsettings.json ou nas variáveis de ambiente.");
             }
-
-            // Detectar o ambiente com base em uma configuração ou variável
-            var environment = configuration["ASPNETCORE_ENVIRONMENT"] ?? "Production";
 
             GoogleCredential credentials;
             if (environment == "Development")
             {
-                // Usar o arquivo local em ambiente de desenvolvimento
-                string credentialsPath = "firestore-credential.json"; // Caminho do arquivo local
+                // Usar o arquivo local em desenvolvimento
+                string credentialsPath = "firestore-credential.json";
                 if (!File.Exists(credentialsPath))
                 {
                     throw new Exception("O arquivo firestore-credential.json não foi encontrado no ambiente local.");
@@ -42,15 +41,14 @@ namespace FastestQuiz.Models
                 credentials = GoogleCredential.FromJson(credentialJson);
             }
 
-            // Criar o FirestoreClient com as credenciais
             var firestoreClient = new FirestoreClientBuilder
             {
                 ChannelCredentials = credentials.ToChannelCredentials()
             }.Build();
 
-            // Inicializar o FirestoreDb
             firestoreDb = FirestoreDb.Create(projectId, firestoreClient);
         }
+
 
 
 
@@ -125,6 +123,41 @@ namespace FastestQuiz.Models
             {
                 { "id", generatedId } // Adiciona o ID no próprio documento
             });
+        }
+
+
+        // Buscar quiz por id
+        public async Task<Quiz> GetQuizByIdAsync(string id)
+        {
+            //buscando
+            var quizDocument = firestoreDb.Collection("quizzes").Document(id);
+
+            //obtem snapshot do documet.
+            var snapshot = await quizDocument.GetSnapshotAsync();
+
+            // verifica se o documento existe
+
+            if(snapshot.Exists)
+            {
+                //converte os dados do snapshot para o objeto Quiz
+                var quiz = new Quiz
+                {
+                    Id = snapshot.GetValue<string>("id") ?? "sem id",
+                    Name = snapshot.GetValue<string>("name") ?? "sem nome",
+                    Description = snapshot.GetValue<string>("description") ?? "sem description",
+                    Author = snapshot.GetValue<string>("author") ?? "sem author",
+                    Question1 = snapshot.GetValue<string>("question1") ?? "sem author",
+                    Question2 = snapshot.GetValue<string>("question2") ?? "sem author",
+                    Question3 = snapshot.GetValue<string>("question3") ?? "sem author",
+                    Question4 = snapshot.GetValue<string>("question4") ?? "sem author",
+                    Date = snapshot.GetValue<DateTime>("date"),
+                    LastUpdate = snapshot.GetValue<DateTime>("lastUpdate")
+                };
+
+                return quiz; // retorna o objeto quiz
+            }
+
+            return null;
         }
     }
 }
